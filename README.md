@@ -1,3 +1,3 @@
 # Yellow Pages
 
-Bookmarks with URL tempaltes
+Bookmarks with URL templates
