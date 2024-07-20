@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from "react";
+// FIXME: sort imports please
+import { ChangeEvent, useEffect, useState } from "react";
 import "./App.css";
 import TEMPLATES from "./url-templates.json";
 import { renderJsTemplateString } from "./utils";
@@ -14,6 +15,15 @@ function Link(props: { url: string }) {
 function App() {
   const [templateInput, setTemplateInput] = useState("");
 
+  useEffect(() => {
+    navigator.clipboard
+      .readText()
+      .then(setTemplateInput)
+      .catch((err) =>
+        console.error("error while request clipboard content", err),
+      );
+  }, []);
+
   function handleTemplateInputChange(e: ChangeEvent<HTMLInputElement>) {
     console.log("e.target.value", e.target.value);
     setTemplateInput(e.target.value);
@@ -25,7 +35,7 @@ function App() {
 
   return (
     <>
-      <h1>sanity check</h1>
+      <h1>yellow pages</h1>
       <input
         type="text"
         value={templateInput}
