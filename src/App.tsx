@@ -2,9 +2,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import "./App.css";
 import TEMPLATES from "./url-templates.json";
-import { renderJsTemplateString } from "./utils";
+import makeLinks from "./make-links";
 
-function Link(props: { url: string }) {
+function Link(props: { url: string | null }) {
+  if (props.url === null) {
+    return null;
+  }
   return (
     <a href={props.url} target="_blank">
       {props.url}
@@ -29,9 +32,8 @@ function App() {
     setTemplateInput(e.target.value);
   }
 
-  const links = TEMPLATES.map((template) =>
-    renderJsTemplateString(template, { templateInput: templateInput }),
-  );
+  const ctx = { input: templateInput };
+  const links = TEMPLATES.map((template) => makeLinks(template)(ctx));
 
   return (
     <>
