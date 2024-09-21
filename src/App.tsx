@@ -3,10 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import TEMPLATES from "./url-templates.json";
 import makeLinks from "./make-links";
 
-function Link(props: { url: string | null }) {
-  if (props.url === null) {
-    return null;
-  }
+function Link(props: { url: string }) {
   return (
     <a href={props.url} target="_blank">
       {props.url}
@@ -42,11 +39,7 @@ function App() {
         value={templateInput}
         onChange={handleTemplateInputChange}
       />
-      <main>
-        {links.map((link) => (
-          <Link key={link} url={link} />
-        ))}
-      </main>
+      <main>{links.map((link) => link && <Link key={link} url={link} />)}</main>
     </>
   );
 }
