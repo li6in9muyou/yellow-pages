@@ -1,6 +1,5 @@
-// FIXME: sort imports please
-import { ChangeEvent, useEffect, useState } from "react";
 import "./App.css";
+import { ChangeEvent, useEffect, useState } from "react";
 import TEMPLATES from "./url-templates.json";
 import makeLinks from "./make-links";
 
