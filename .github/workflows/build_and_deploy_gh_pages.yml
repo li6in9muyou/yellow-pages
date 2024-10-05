@@ -2,7 +2,7 @@ name: deploy_gh_pages
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main", "master" ]
 
 jobs:
   build:
