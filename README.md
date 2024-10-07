@@ -10,7 +10,7 @@ Bookmarks with URL templates
 - [x] design a URL template scheme
 - [x] add an `input:file` to accept user's URL templates and save it somewhere
 - [ ] save a history of clicked links to localStorage or indexed DB or whatever
-- [ ] remove vite template stuff
+- [x] remove vite template stuff
 - [ ] find another way to trigger readFile, try onMouseMove
 - [ ] document bookmark template scheme here
 
