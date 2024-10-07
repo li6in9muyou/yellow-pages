@@ -1,8 +1,6 @@
 import { matchAndReplace, renderJsTemplateString } from "./utils";
+import { TemplateType } from "./template-types";
 
-export type TemplateType =
-  | string
-  | { predicate: string; match: string; replace: string };
 export type LinkRenderer = (ctx: { input: string }) => string | null;
 
 export default function (template: TemplateType): LinkRenderer {

@@ -1,7 +1,77 @@
 import "./App.css";
-import { ChangeEvent, useEffect, useState } from "react";
-import TEMPLATES from "./url-templates.json";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { del, get, set } from "idb-keyval";
+import { TemplateType } from "./template-types";
 import makeLinks from "./make-links";
+
+async function isPermissionGranted(
+  fileHandle: FileSystemFileHandle,
+  withWrite = false,
+) {
+  const opts: FileSystemHandlePermissionDescriptor = {};
+  if (withWrite) {
+    opts.mode = "readwrite";
+  }
+
+  if ((await fileHandle.queryPermission(opts)) === "granted") {
+    return true;
+  }
+
+  if ((await fileHandle.requestPermission(opts)) === "granted") {
+    return true;
+  }
+
+  return false;
+}
+
+async function handleReadingLocalFileRepeatedly(
+  fileKey = "file",
+  errorHandler: (error: string, payload: unknown) => void,
+): Promise<string> {
+  try {
+    const cached = await get(fileKey);
+
+    if (cached) {
+      let file;
+      try {
+        file = await cached.getFile();
+      } catch (error) {
+        errorHandler("cached but no permission", error);
+        await del(fileKey);
+        return "";
+      }
+
+      const contents = await file.text();
+      return contents;
+    }
+
+    let handle;
+    try {
+      [handle] = await window.showOpenFilePicker();
+    } catch (error: unknown) {
+      switch ((error as DOMException).name) {
+        case "AbortError":
+          errorHandler("newly select but aborted", error);
+          break;
+        default:
+          throw error;
+      }
+    }
+    await set(fileKey, handle);
+
+    const granted = isPermissionGranted(handle!);
+    if (!granted) {
+      errorHandler("newly selected but no permission", handle);
+    }
+
+    const file = await handle!.getFile();
+    const contents = await file.text();
+    return contents;
+  } catch (error: unknown) {
+    errorHandler("unknown error", error);
+    return "";
+  }
+}
 
 function Link(props: { url: string }) {
   return (
@@ -11,7 +81,24 @@ function Link(props: { url: string }) {
   );
 }
 
+const handleLoadYellowPages = async (
+  setTemplates: (templates: TemplateType[]) => void,
+) => {
+  const json = await handleReadingLocalFileRepeatedly(
+    "yellow-pages--templates",
+    (error: unknown) => {
+      console.error("handleReadingLocalFileRepeatedly error", error);
+    },
+  );
+  return setTemplates(JSON.parse(json));
+};
+
 function App() {
+  const [TEMPLATES, setTEMPLATES] = useState<TemplateType[]>([]);
+  const handleClick = useCallback(
+    () => handleLoadYellowPages(setTEMPLATES),
+    [setTEMPLATES],
+  );
   const [templateInput, setTemplateInput] = useState("");
 
   useEffect(() => {
@@ -24,7 +111,6 @@ function App() {
   }, []);
 
   function handleTemplateInputChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log("e.target.value", e.target.value);
     setTemplateInput(e.target.value);
   }
 
@@ -34,6 +120,7 @@ function App() {
   return (
     <>
       <h1>yellow pages</h1>
+      <button onClick={handleClick}>Click me</button>
       <input
         type="text"
         value={templateInput}
