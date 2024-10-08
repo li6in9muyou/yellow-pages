@@ -12,7 +12,7 @@ Bookmarks with URL templates
 - [ ] save a history of clicked links to localStorage or indexed DB or whatever
 - [x] remove vite template stuff
 - [ ] find another way to trigger readFile, try onMouseMove
-- [ ] document bookmark template scheme here
+- [x] document bookmark template scheme here
 - [ ] support javascript bookmark templates
 
 # bookmark template scheme
@@ -25,8 +25,8 @@ Bookmarks with URL templates
   "unless it contains embedded experssions, e.g. ${input}",
   {
     "predicate": "this is passed to new RegExp(...), if it matches, this template is used",
-    "match": "another regex to match against user input",
-    "replace": "a js template string that can access matches of 'match' and this will be the url"
+    "match": "another regex to match against user input or an empty string",
+    "replace": "construct url using capture groups of 'match' or verbatim if match is empty"
   }
 ]
 ```
