@@ -1,0 +1,1 @@
+body{margin:0;background:#000;color:#fff;font-family:monospace}body{display:flex;flex-direction:column;height:100vh;font-size:1.5rem}main{flex-grow:1}.links{display:flex;flex-direction:column;gap:2rem;margin-top:1rem}h1{text-transform:capitalize}
