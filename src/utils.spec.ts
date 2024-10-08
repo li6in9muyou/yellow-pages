@@ -44,3 +44,7 @@ it("should replace it with longer text", () => {
     ),
   ).toBe("https://example.com/file/dddd-1111");
 });
+
+it("should treat empty match as no match", () => {
+  expect(matchAndReplace("ab", "", "ddddd")).toBe("ab");
+});

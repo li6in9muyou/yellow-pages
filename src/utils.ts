@@ -15,7 +15,9 @@ export function matchAndReplace(
 ): string {
   const pattern = new RegExp(match);
   const groups = text.match(pattern);
-  if (groups === null) {
+
+  const noMatch = groups === null || match === "";
+  if (noMatch) {
     return text;
   }
 
