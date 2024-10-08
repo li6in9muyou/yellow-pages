@@ -1,9 +1,19 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-size: 1.5rem;
+}
+
 main {
+  flex-grow: 1;
+}
+
+.links {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  font-size: 1.5rem;
-  margin: 1rem 0;
+  margin-top: 1rem;
 }
 
 h1 {

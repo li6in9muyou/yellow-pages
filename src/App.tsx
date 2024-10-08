@@ -95,7 +95,7 @@ const handleLoadYellowPages = async (
 
 function App() {
   const [TEMPLATES, setTEMPLATES] = useState<TemplateType[]>([]);
-  const handleClick = useCallback(
+  const handleImport = useCallback(
     () => handleLoadYellowPages(setTEMPLATES),
     [setTEMPLATES],
   );
@@ -120,13 +120,17 @@ function App() {
   return (
     <>
       <h1>yellow pages</h1>
-      <button onClick={handleClick}>Click me</button>
-      <input
-        type="text"
-        value={templateInput}
-        onChange={handleTemplateInputChange}
-      />
-      <main>{links.map((link) => link && <Link key={link} url={link} />)}</main>
+      <section>click anywhere below to import yellow pages</section>
+      <main onClick={handleImport}>
+        <input
+          type="text"
+          value={templateInput}
+          onChange={handleTemplateInputChange}
+        />
+        <section className="links">
+          {links.map((link) => link && <Link key={link} url={link} />)}
+        </section>
+      </main>
     </>
   );
 }
