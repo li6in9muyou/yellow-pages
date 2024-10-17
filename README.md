@@ -14,6 +14,7 @@ Bookmarks with URL templates
 - [ ] find another way to trigger readFile, try onMouseMove
 - [x] document bookmark template scheme here
 - [ ] support javascript bookmark templates
+- [ ] feat: single input can generate multiple links
 
 # bookmark template scheme
 
