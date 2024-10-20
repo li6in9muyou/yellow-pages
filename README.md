@@ -20,14 +20,25 @@ Bookmarks with URL templates
 
 ## JSON version
 
+An array of bookmarks. Supported bookmark types are:
+
+- verbatim
+- strings wih embbed expressions to reference user input
+- match-and-replace with three variants
+
 ```json
 [
-  "strings are treated as urls verbatim",
-  "unless it contains embedded experssions, e.g. ${input}",
+  "www.example.com",
+  "example.com/${input}/view",
   {
-    "predicate": "this is passed to new RegExp(...), if it matches, this template is used",
-    "match": "another regex to match against user input or an empty string",
-    "replace": "construct url using capture groups of 'match' or verbatim if match is empty"
+    "predicate": "uuid-\\w{4}",
+    "match": ["uuid-\\w{4}","uuid-\\w{4}"],
+    "replace": ["https://example.com/${0}/edit", "https://example.com/${0}/view"]
+  }
+  {
+    "predicate": "uuid-\\w{4}",
+    "match": ["uuid-\\w{4}"],
+    "replace": ["https://example.com/${0}/edit", "https://example.com/${0}/view"]
   }
 ]
 ```

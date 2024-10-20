@@ -48,3 +48,39 @@ it("should replace it with longer text", () => {
 it("should treat empty match as no match", () => {
   expect(matchAndReplace("ab", "", "ddddd")).toBe("ab");
 });
+
+it("should support match and replace arrays that has same length", () => {
+  expect(
+    matchAndReplace("abc", ["a", "b", "c"], ["x", "y", "z"]),
+  ).toStrictEqual(["xbc", "ayc", "abz"]);
+});
+
+it("should support single match (string) and many replaces", () => {
+  expect(
+    matchAndReplace("uuid-abcd", ".*", [
+      "https://example.com/${0}/edit",
+      "https://example.com/${0}/view",
+    ]),
+  ).toStrictEqual([
+    "https://example.com/uuid-abcd/edit",
+    "https://example.com/uuid-abcd/view",
+  ]);
+});
+
+it("should return null if params are bad", () => {
+  expect(matchAndReplace("abc", ["a", "b"], "a")).toBeNull();
+  expect(matchAndReplace("abc", ["a", "b"], ["a", "b", "c"])).toBeNull();
+});
+
+it("should support single match (string[]) and many replaces", () => {
+  expect(
+    matchAndReplace(
+      "uuid-abcd",
+      [".*"],
+      ["https://example.com/${0}/edit", "https://example.com/${0}/view"],
+    ),
+  ).toStrictEqual([
+    "https://example.com/uuid-abcd/edit",
+    "https://example.com/uuid-abcd/view",
+  ]);
+});

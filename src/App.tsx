@@ -115,7 +115,7 @@ function App() {
   }
 
   const ctx = { input: templateInput };
-  const links = TEMPLATES.map((template) => makeLinks(template)(ctx));
+  const links = TEMPLATES.map((template) => makeLinks(template)(ctx)).flat();
 
   return (
     <>
