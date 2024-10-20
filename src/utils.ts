@@ -1,4 +1,4 @@
-import { isArray, repeat, zip } from "lodash";
+import { isArray, zip } from "lodash";
 
 export function renderJsTemplateString(
   template: string,

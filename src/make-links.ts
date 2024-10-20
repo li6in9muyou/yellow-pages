@@ -1,7 +1,7 @@
 import { matchAndReplace, renderJsTemplateString } from "./utils";
 import { TemplateType } from "./template-types";
 
-export type LinkRenderer = (ctx: { input: string }) => string | null;
+export type LinkRenderer = (ctx: { input: string }) => string | string[] | null;
 
 export default function (template: TemplateType): LinkRenderer {
   if (typeof template === "string") {
