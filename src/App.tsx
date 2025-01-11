@@ -1,6 +1,7 @@
 import "./App.css";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { del, get, set } from "idb-keyval";
+import Hotkeys from "react-hot-keys";
 import { TemplateType } from "./template-types";
 import makeLinks from "./make-links";
 
@@ -117,20 +118,32 @@ function App() {
   const ctx = { input: templateInput };
   const links = TEMPLATES.map((template) => makeLinks(template)(ctx)).flat();
 
+  function handleEnter() {
+    console.log("libq handle enter");
+    try {
+      const validLink = new URL(links.filter(Boolean)[0] ?? "");
+      window.location.href = validLink.toString();
+    } catch (e) {
+      console.error("error when jumping to link", e, links);
+    }
+  }
+
   return (
     <>
-      <h1>yellow pages</h1>
-      <section>click anywhere below to import yellow pages</section>
-      <main onClick={handleImport}>
-        <input
-          type="text"
-          value={templateInput}
-          onChange={handleTemplateInputChange}
-        />
-        <section className="links">
-          {links.map((link) => link && <Link key={link} url={link} />)}
-        </section>
-      </main>
+      <Hotkeys keyName="enter" onKeyUp={handleEnter}>
+        <h1>yellow pages</h1>
+        <section>click anywhere below to import yellow pages</section>
+        <main onClick={handleImport}>
+          <input
+            type="text"
+            value={templateInput}
+            onChange={handleTemplateInputChange}
+          />
+          <section className="links">
+            {links.map((link) => link && <Link key={link} url={link} />)}
+          </section>
+        </main>
+      </Hotkeys>
     </>
   );
 }
