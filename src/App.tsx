@@ -128,6 +128,17 @@ function App() {
     }
   }
 
+  function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      try {
+        const validLink = new URL(links.filter(Boolean)[0] ?? "");
+        window.location.href = validLink.toString();
+      } catch (e) {
+        console.error("error when jumping to link", e, links);
+      }
+    }
+  }
+
   return (
     <>
       <Hotkeys keyName="enter" onKeyUp={handleEnter}>
@@ -138,6 +149,7 @@ function App() {
             type="text"
             value={templateInput}
             onChange={handleTemplateInputChange}
+            onKeyUp={handleKeyUp}
           />
           <section className="links">
             {links.map((link) => link && <Link key={link} url={link} />)}
