@@ -1,2 +1,4 @@
 url-templates.json
+dist
+dist-local
 node_modules
