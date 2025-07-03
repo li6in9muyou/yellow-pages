@@ -87,8 +87,8 @@ const handleLoadYellowPages = async (
 ) => {
   const json = await handleReadingLocalFileRepeatedly(
     "yellow-pages--templates",
-    (error: unknown) => {
-      console.error("handleReadingLocalFileRepeatedly error", error);
+    (error, detail) => {
+      console.error("handleReadingLocalFileRepeatedly error", error, detail);
     },
   );
   return setTemplates(JSON.parse(json));
